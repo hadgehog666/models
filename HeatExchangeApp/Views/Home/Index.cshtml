@@ -1,8 +1,75 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HeatExchangeApp.Models.InputData
+@{
+    ViewData["Title"] = "Расчёт теплообмена";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <h2>Расчёт теплообмена в противоточном слое</h2>
+    <p class="text-muted">Плотный продуваемый слой окатышей и газа</p>
+
+    <form method="post" asp-action="Calculate">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label asp-for="LayerHeight" class="form-label"></label>
+                    <input asp-for="LayerHeight" class="form-control" />
+                    <span asp-validation-for="LayerHeight" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="MaterialTempInitial" class="form-label"></label>
+                    <input asp-for="MaterialTempInitial" class="form-control" />
+                    <span asp-validation-for="MaterialTempInitial" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="GasTempInitial" class="form-label"></label>
+                    <input asp-for="GasTempInitial" class="form-control" />
+                    <span asp-validation-for="GasTempInitial" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="GasVelocity" class="form-label"></label>
+                    <input asp-for="GasVelocity" class="form-control" />
+                    <span asp-validation-for="GasVelocity" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="GasHeatCapacity" class="form-label"></label>
+                    <input asp-for="GasHeatCapacity" class="form-control" />
+                    <span asp-validation-for="GasHeatCapacity" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label asp-for="MaterialFlowRate" class="form-label"></label>
+                    <input asp-for="MaterialFlowRate" class="form-control" />
+                    <span asp-validation-for="MaterialFlowRate" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="MaterialHeatCapacity" class="form-label"></label>
+                    <input asp-for="MaterialHeatCapacity" class="form-control" />
+                    <span asp-validation-for="MaterialHeatCapacity" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="HeatTransferCoeff" class="form-label"></label>
+                    <input asp-for="HeatTransferCoeff" class="form-control" />
+                    <span asp-validation-for="HeatTransferCoeff" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="ApparatusDiameter" class="form-label"></label>
+                    <input asp-for="ApparatusDiameter" class="form-control" />
+                    <span asp-validation-for="ApparatusDiameter" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="NumLayers" class="form-label"></label>
+                    <input asp-for="NumLayers" type="number" class="form-control" />
+                    <span asp-validation-for="NumLayers" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Рассчитать</button>
+        <a asp-action="Saved" class="btn btn-outline-secondary">Мои сценарии</a>
+    </form>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

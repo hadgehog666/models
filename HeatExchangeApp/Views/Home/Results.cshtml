@@ -1,0 +1,168 @@
+﻿@model List<HeatExchangeApp.Models.LayerPoint>
+@{
+    var input = ViewBag.Input as HeatExchangeApp.Models.InputData;
+    var scenarioName = ViewBag.ScenarioName as string;
+    ViewData["Title"] = "Результаты";
+}
+
+<div class="container mt-4">
+    <h2>Результаты расчёта</h2>
+    @if (!string.IsNullOrEmpty(scenarioName))
+    {
+        <div class="alert alert-info">Загружен сценарий: <strong>@scenarioName</strong></div>
+    }
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h5>Исходные данные:</h5>
+            <ul>
+                <li>Высота: @input.LayerHeight м</li>
+                <li>αV: @input.HeatTransferCoeff Вт/(м³·К)</li>
+                <li>T<sub>мат</sub>₀ = @input.MaterialTempInitial °C</li>
+                <li>T<sub>газ</sub>₀ = @input.GasTempInitial °C</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <form method="post" asp-action="Recalculate" class="mb-3">
+                <input type="hidden" asp-for="@input.LayerHeight" />
+                <input type="hidden" asp-for="@input.MaterialTempInitial" />
+                <input type="hidden" asp-for="@input.GasTempInitial" />
+                <input type="hidden" asp-for="@input.GasVelocity" />
+                <input type="hidden" asp-for="@input.GasHeatCapacity" />
+                <input type="hidden" asp-for="@input.MaterialFlowRate" />
+                <input type="hidden" asp-for="@input.MaterialHeatCapacity" />
+                <input type="hidden" asp-for="@input.ApparatusDiameter" />
+                <input type="hidden" asp-for="@input.NumLayers" />
+
+                <label>αV, Вт/(м³·К):</label>
+                <input name="HeatTransferCoeff" type="number" step="10" value="@input.HeatTransferCoeff" class="form-control d-inline" style="width:120px" />
+                <button type="submit" class="btn btn-sm btn-warning">Пересчитать</button>
+            </form>
+
+            <form method="post" asp-action="Save">
+                @foreach (var prop in typeof(HeatExchangeApp.Models.InputData).GetProperties())
+                {
+                    <input type="hidden" name="@prop.Name" value="@prop.GetValue(input)" />
+                }
+                <div class="input-group mb-2">
+                    <input name="scenarioName" class="form-control" placeholder="Название сценария..." value="@scenarioName" />
+                    <button class="btn btn-success" type="submit">💾 Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <h4>Температурное поле (таблица)</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>y, м</th>
+                    <th>T<sub>мат</sub>, °C</th>
+                    <th>T<sub>газ</sub>, °C</th>
+                    <th>ΔT, °C</th>
+                    <th>y/H</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td>@p.Y</td>
+                        <td>@p.MaterialTemp</td>
+                        <td>@p.GasTemp</td>
+                        <td>@p.DeltaTemp.ToString("F1")</td>
+                        <td>@p.RelativeHeight</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-8">
+            <canvas id="tempChart" height="300"></canvas>
+        </div>
+        <div class="col-md-4">
+            <canvas id="deltaChart" height="300"></canvas>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const y = [@string.Join(",", Model.Select(p => p.Y))];
+        const ts = [@string.Join(",", Model.Select(p => p.MaterialTemp))];
+        const tg = [@string.Join(",", Model.Select(p => p.GasTemp))];
+        const dt = [@string.Join(",", Model.Select(p => p.DeltaTemp))];
+
+        const tempCtx = document.getElementById('tempChart').getContext('2d');
+        new Chart(tempCtx, {
+            type: 'line',
+            data: {
+                labels: y,
+                datasets: [
+                    {
+                        label: 'T материала, °C',
+                        data: ts,
+                        borderColor: '#198754',
+                        backgroundColor: 'rgba(25,135,84,0.1)',
+                        borderWidth: 3,
+                        fill: false,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'T газа, °C',
+                        data: tg,
+                        borderColor: '#0d6efd',
+                        backgroundColor: 'rgba(13,110,253,0.1)',
+                        borderWidth: 3,
+                        fill: false,
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'Изменение температуры по высоте слоя' },
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Высота y, м' } },
+                    y: { title: { display: true, text: 'Температура, °C' } }
+                }
+            }
+        });
+
+        const deltaCtx = document.getElementById('deltaChart').getContext('2d');
+        new Chart(deltaCtx, {
+            type: 'bar',
+            data: {
+                labels: y,
+                datasets: [{
+                    label: 'ΔT = Tгаз - Tмат, °C',
+                    data: dt,
+                    backgroundColor: '#dc3545',
+                    borderColor: '#c82333',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'Разность температур' }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'y, м' } },
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'ΔT, °C' }
+                    }
+                }
+            }
+        });
+    </script>
+}
