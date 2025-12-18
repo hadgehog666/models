@@ -1,75 +1,129 @@
 ﻿@model HeatExchangeApp.Models.InputData
 @{
-    ViewData["Title"] = "Расчёт теплообмена";
+    ViewData["Title"] = "Расчёт теплообмена в противоточном слое";
 }
 
 <div class="container mt-4">
-    <h2>Расчёт теплообмена в противоточном слое</h2>
-    <p class="text-muted">Плотный продуваемый слой окатышей и газа</p>
+    <div class="row">
+        <div class="col">
+            <h2>Расчёт теплообмена в противоточном движении</h2>
+            <p class="text-muted">Плотный продуваемый слой кусковых материалов (окатышей)</p>
+            <hr />
+        </div>
+    </div>
 
-    <form method="post" asp-action="Calculate">
-        <div class="row">
+    <form method="post" asp-action="Calculate" novalidate>
+        <div class="row g-4">
+            <!-- Левая колонка -->
             <div class="col-md-6">
+                <h5>Геометрия и потоки</h5>
                 <div class="form-group mb-3">
                     <label asp-for="LayerHeight" class="form-label"></label>
-                    <input asp-for="LayerHeight" class="form-control" />
+                    <input asp-for="LayerHeight" type="number" step="any" class="form-control" />
                     <span asp-validation-for="LayerHeight" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
-                    <label asp-for="MaterialTempInitial" class="form-label"></label>
-                    <input asp-for="MaterialTempInitial" class="form-control" />
-                    <span asp-validation-for="MaterialTempInitial" class="text-danger"></span>
-                </div>
-                <div class="form-group mb-3">
-                    <label asp-for="GasTempInitial" class="form-label"></label>
-                    <input asp-for="GasTempInitial" class="form-control" />
-                    <span asp-validation-for="GasTempInitial" class="text-danger"></span>
+                    <label asp-for="ApparatusDiameter" class="form-label"></label>
+                    <input asp-for="ApparatusDiameter" type="number" step="any" class="form-control" />
+                    <span asp-validation-for="ApparatusDiameter" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="GasVelocity" class="form-label"></label>
-                    <input asp-for="GasVelocity" class="form-control" />
+                    <input asp-for="GasVelocity" type="number" step="any" class="form-control" />
                     <span asp-validation-for="GasVelocity" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="GasHeatCapacity" class="form-label"></label>
-                    <input asp-for="GasHeatCapacity" class="form-control" />
+                    <input asp-for="GasHeatCapacity" type="number" step="any" class="form-control" />
                     <span asp-validation-for="GasHeatCapacity" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="col-md-6">
                 <div class="form-group mb-3">
                     <label asp-for="MaterialFlowRate" class="form-label"></label>
-                    <input asp-for="MaterialFlowRate" class="form-control" />
+                    <input asp-for="MaterialFlowRate" type="number" step="any" class="form-control" />
                     <span asp-validation-for="MaterialFlowRate" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="MaterialHeatCapacity" class="form-label"></label>
-                    <input asp-for="MaterialHeatCapacity" class="form-control" />
+                    <input asp-for="MaterialHeatCapacity" type="number" step="any" class="form-control" />
                     <span asp-validation-for="MaterialHeatCapacity" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Правая колонка -->
+            <div class="col-md-6">
+                <h5>Температуры и теплообмен</h5>
+                <div class="form-group mb-3">
+                    <label asp-for="MaterialTempInitial" class="form-label"></label>
+                    <input asp-for="MaterialTempInitial" type="number" step="any" class="form-control" />
+                    <span asp-validation-for="MaterialTempInitial" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="GasTempInitial" class="form-label"></label>
+                    <input asp-for="GasTempInitial" type="number" step="any" class="form-control" />
+                    <span asp-validation-for="GasTempInitial" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="HeatTransferCoeff" class="form-label"></label>
-                    <input asp-for="HeatTransferCoeff" class="form-control" />
+                    <input asp-for="HeatTransferCoeff" type="number" step="any" class="form-control" />
                     <span asp-validation-for="HeatTransferCoeff" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
-                    <label asp-for="ApparatusDiameter" class="form-label"></label>
-                    <input asp-for="ApparatusDiameter" class="form-control" />
-                    <span asp-validation-for="ApparatusDiameter" class="text-danger"></span>
-                </div>
-                <div class="form-group mb-3">
                     <label asp-for="NumLayers" class="form-label"></label>
-                    <input asp-for="NumLayers" type="number" class="form-control" />
+                    <input asp-for="NumLayers" type="number" step="1" min="3" max="50" class="form-control" />
                     <span asp-validation-for="NumLayers" class="text-danger"></span>
+                    <small class="form-text text-muted">Число узлов по высоте (например, 7 → y = 0,1,2,…,6 м)</small>
+                </div>
+                <hr />
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-calculator"></i> Рассчитать
+                    </button>
+                    <a asp-action="Saved" class="btn btn-outline-secondary">
+                        <i class="bi bi-folder2-open"></i> Загрузить сохранённый вариант
+                    </a>
                 </div>
             </div>
         </div>
-
-        <button type="submit" class="btn btn-primary">Рассчитать</button>
-        <a asp-action="Saved" class="btn btn-outline-secondary">Мои сценарии</a>
     </form>
+
+    <div class="mt-5 p-4 bg-light rounded">
+        <h5>📌 Типичные исходные данные (Вариант из отчёта)</h5>
+        <ul>
+            <li><strong>Высота слоя:</strong> 6 м</li>
+            <li><strong>Диаметр аппарата:</strong> 2.2 м</li>
+            <li><strong>αV:</strong> 2440 Вт/(м³·К)</li>
+            <li><strong>T<sub>мат</sub>₀:</strong> 15 °C, <strong>T<sub>газ</sub>₀:</strong> 600 °C</li>
+            <li><strong>w<sub>газ</sub>:</strong> 0.73 м/с, <strong>C<sub>газ</sub>:</strong> 1.09 кДж/(м³·К)</li>
+            <li><strong>ṁ<sub>мат</sub>:</strong> 1.68 кг/с, <strong>C<sub>мат</sub>:</strong> 1.49 кДж/(кг·К)</li>
+        </ul>
+        <p class="mb-0">
+            <a href="#" onclick="fillDefault(); return false;" class="btn btn-sm btn-outline-primary">
+                Заполнить значениями по умолчанию
+            </a>
+        </p>
+    </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        function fillDefault() {
+            const defaults = {
+                'LayerHeight': 6.0,
+                'ApparatusDiameter': 2.2,
+                'GasVelocity': 0.73,
+                'GasHeatCapacity': 1.09,
+                'MaterialFlowRate': 1.68,
+                'MaterialHeatCapacity': 1.49,
+                'MaterialTempInitial': 15.0,
+                'GasTempInitial': 600.0,
+                'HeatTransferCoeff': 2440.0,
+                'NumLayers': 7
+            };
+            for (let [id, val] of Object.entries(defaults)) {
+                const el = document.getElementById(id);
+                if (el) el.value = val;
+            }
+        }
+    </script>
 }

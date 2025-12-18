@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HeatExchangeApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+99e1f29548d0920ad560a4ac9e82927e14b07acd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+58d9c1bb18f509f62237695ca2872ea4d7451235")]
 [assembly: System.Reflection.AssemblyProductAttribute("HeatExchangeApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HeatExchangeApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
