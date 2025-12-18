@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\nizov\\OneDrive\\\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\GitHub\\models\\HeatExchangeApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B30542B9-CB3E-4B6B-A0B6-0BA80B87EEDF}|HeatExchangeApp.csproj|c:\\users\\nizov\\onedrive\\\u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\github\\models\\heatexchangeapp\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B30542B9-CB3E-4B6B-A0B6-0BA80B87EEDF}|HeatExchangeApp.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B30542B9-CB3E-4B6B-A0B6-0BA80B87EEDF}|HeatExchangeApp.csproj|c:\\users\\nizov\\onedrive\\\u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\github\\models\\heatexchangeapp\\services\\heatexchangeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B30542B9-CB3E-4B6B-A0B6-0BA80B87EEDF}|HeatExchangeApp.csproj|solutionrelative:services\\heatexchangeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\nizov\\OneDrive\\\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\GitHub\\models\\HeatExchangeApp\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\nizov\\OneDrive\\\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\GitHub\\models\\HeatExchangeApp\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "Data\\AppDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Title": "HeatExchangeService.cs",
+              "DocumentMoniker": "C:\\Users\\nizov\\OneDrive\\\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\GitHub\\models\\HeatExchangeApp\\Services\\HeatExchangeService.cs",
+              "RelativeDocumentMoniker": "Services\\HeatExchangeService.cs",
+              "ToolTip": "C:\\Users\\nizov\\OneDrive\\\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\GitHub\\models\\HeatExchangeApp\\Services\\HeatExchangeService.cs",
+              "RelativeToolTip": "Services\\HeatExchangeService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T00:56:28.878Z",
+              "WhenOpened": "2025-12-18T01:00:49.839Z",
               "EditorCaption": ""
             }
           ]
